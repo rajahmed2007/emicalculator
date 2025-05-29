@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator - Ultra Designed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for a more polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            /* Tailwind gray-200 */
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #60a5fa;
+            /* Tailwind blue-400 */
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+            /* Tailwind blue-500 */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            light: '#60a5fa', // blue-400
+                            DEFAULT: '#3b82f6', // blue-500
+                            dark: '#2563eb', // blue-600
+                        },
+                        secondary: '#10b981', // emerald-500
+                        slate: { // Extending slate for more shades if needed
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">EMI Calculator</h1>
+            <p class="mt-2 text-lg text-blue-100">Plan your finances with precision.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white shadow-xl rounded-xl overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-6 sm:p-8 bg-slate-50 border-r border-slate-200">
+                        <h2 class="text-2xl font-semibold text-blue-700 mb-6">Loan Details</h2>
+                        <form id="emiForm" class="space-y-5">
+                            <div>
+                                <label for="loanAmount" class="block text-sm font-medium text-slate-600 mb-1">Loan
+                                    Amount (₹)</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-slate-500 sm:text-sm">₹</span>
+                                    </div>
+                                    <input type="number" name="loanAmount" id="loanAmount"
+                                        class="w-full pl-7 pr-4 py-3 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-slate-700 transition duration-150"
+                                        placeholder="e.g., 500000" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="interestRate" class="block text-sm font-medium text-slate-600 mb-1">Annual
+                                    Interest Rate (%)</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <input type="number" step="0.01" name="interestRate" id="interestRate"
+                                        class="w-full px-4 py-3 pr-10 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-slate-700 transition duration-150"
+                                        placeholder="e.g., 8.5" required>
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-slate-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="loanTenure" class="block text-sm font-medium text-slate-600 mb-1">Loan
+                                    Tenure (Years)</label>
+                                <input type="number" name="loanTenure" id="loanTenure"
+                                    class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-slate-700 transition duration-150"
+                                    placeholder="e.g., 5" required>
+                            </div>
+                            <div>
+                                <label for="downPayment" class="block text-sm font-medium text-slate-600 mb-1">Down
+                                    Payment (₹)</label>
+                                <input type="number" name="downPayment" id="downPayment"
+                                    class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-slate-700 transition duration-150"
+                                    placeholder="e.g., 50000" min="0" value="0">
+                            </div>
+                            <div>
+                                <label for="startDate" class="block text-sm font-medium text-slate-600 mb-1">Loan Start
+                                    Date</label>
+                                <input type="date" name="startDate" id="startDate"
+                                    class="w-full px-4 py-3 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-slate-700 transition duration-150"
+                                    required>
+                            </div>
+                            <button type="submit" id="calculateBtn"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md
+                                       transition duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                                Calculate EMI
+                            </button>
+                        </form>
+                    </div>
+
+                    <div
+                        class="md:w-1/2 p-6 sm:p-8 bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col justify-center">
+                        <h2 class="text-2xl font-semibold text-blue-700 mb-6 text-center md:text-left">Your EMI Results
+                        </h2>
+                        <div id="bufferingSpinner" class="hidden flex flex-col items-center justify-center py-6">
+                            <svg class="animate-spin h-8 w-8 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                            <span class="text-blue-600 font-medium">Calculating EMI details...</span>
+                        </div>
+                        <div id="resultsDisplay" class="space-y-4">
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-slate-500 mb-1">Monthly EMI</p>
+                                <p class="text-xl md:text-2xl font-bold text-blue-600" id="monthlyEMI">₹ 0.00</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-slate-500 mb-1">Total Interest Payable</p>
+                                <p class="text-xl md:text-2xl font-bold text-blue-600" id="totalInterest">₹ 0.00</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-slate-500 mb-1">Total Payment <span class="text-xs">(Principal +
+                                        Interest)</span></p>
+                                <p class="text-xl md:text-2xl font-bold text-blue-600" id="totalPayment">₹ 0.00</p>
+                            </div>
+                            <div class="mt-8">
+                            
+                            </div>
+
+                        </div>
+                        <div id="errorMessage"
+                            class="mt-4 text-red-600 text-sm hidden text-center font-medium p-3 bg-red-100 rounded-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white shadow-xl rounded-xl overflow-hidden">
+    <h3 class="text-lg font-semibold text-blue-700 mb-2">EMI Payment Schedule</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white rounded-lg shadow-md text-sm"
+                                        id="emiScheduleTable">
+                                        <thead>
+                                            <tr class="bg-blue-100 text-blue-700">
+                                                <th class="py-2 px-3">#</th>
+                                                <th class="py-2 px-3">Date</th>
+                                                <th class="py-2 px-3">EMI (₹)</th>
+                                                <th class="py-2 px-3">Principal Paid (₹)</th>
+                                                <th class="py-2 px-3">Interest Paid (₹)</th>
+                                                <th class="py-2 px-3">Outstanding (₹)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="emiScheduleBody">
+                                            <!-- Rows will be inserted by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+            </div>
+        </div>
+
+
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-8 text-center mt-12">
+        <div class="container mx-auto px-4">
+            <p class="text-sm">&copy; <span id="currentYear"></span> EMI Calculator. Designed by <a href="http://github.com/rajahmed2007">Raj</a>.</p>
+            <p class="text-xs mt-1">This is a tool for estimation purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateemi(amt, rate, time) {
+            // Convert annual rate to monthly and percentage
+            let monthlyRate = rate / (12 * 100);
+            // Calculate the number of payments
+            let numberOfPayments = time * 12;
+
+            // EMI formula
+            let emi = (amt * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
+                (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+
+            return emi.toFixed(2); // Return EMI rounded to two decimal places
+
+        }
+    </script>
+    <script>
+        function calculateemi(amt, rate, time) {
+            let monthlyRate = rate / (12 * 100);
+            let numberOfPayments = time * 12;
+            let emi = (amt * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
+                (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            return emi;
+        }
+
+        function generateSchedule(principal, rate, tenure, emi, startDate) {
+            let monthlyRate = rate / (12 * 100);
+            let outstanding = principal;
+            let schedule = [];
+            let date = new Date(startDate);
+
+            for (let i = 1; i <= tenure * 12; i++) {
+                let interest = outstanding * monthlyRate;
+                let principalPaid = emi - interest;
+                if (outstanding < emi) {
+                    principalPaid = outstanding;
+                    emi = principalPaid + interest;
+                }
+                outstanding -= principalPaid;
+                if (outstanding < 1e-2) outstanding = 0;
+
+                schedule.push({
+                    month: i,
+                    date: date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' }),
+                    emi: emi,
+                    principalPaid: principalPaid,
+                    interestPaid: interest,
+                    outstanding: outstanding
+                });
+
+                // Move to next month
+                date.setMonth(date.getMonth() + 1);
+            }
+            return schedule;
+        }
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const emiForm = document.getElementById('emiForm');
+        const monthlyEMIEl = document.getElementById('monthlyEMI');
+        const totalInterestEl = document.getElementById('totalInterest');
+        const totalPaymentEl = document.getElementById('totalPayment');
+        const errorMessageEl = document.getElementById('errorMessage');
+        const bufferingSpinner = document.getElementById('bufferingSpinner');
+        const emiScheduleBody = document.getElementById('emiScheduleBody');
+
+        if (emiForm) {
+            emiForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Show spinner, hide results
+                bufferingSpinner.classList.remove('hidden');
+                monthlyEMIEl.textContent = '...';
+                totalInterestEl.textContent = '...';
+                totalPaymentEl.textContent = '...';
+                emiScheduleBody.innerHTML = '';
+
+                setTimeout(() => {
+                    // Get values
+                    let amount = parseFloat(document.getElementById('loanAmount').value);
+                    let interestRate = parseFloat(document.getElementById('interestRate').value);
+                    let tenure = parseInt(document.getElementById('loanTenure').value);
+                    let downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
+                    let startDate = document.getElementById('startDate').value;
+
+                    if (isNaN(amount) || isNaN(interestRate) || isNaN(tenure) || !startDate) {
+                        errorMessageEl.textContent = 'Please fill all fields correctly.';
+                        errorMessageEl.classList.remove('hidden');
+                        bufferingSpinner.classList.add('hidden');
+                        return;
+                    }
+                    if (downPayment < 0 || downPayment > amount) {
+                        errorMessageEl.textContent = 'Down payment must be between 0 and loan amount.';
+                        errorMessageEl.classList.remove('hidden');
+                        bufferingSpinner.classList.add('hidden');
+                        return;
+                    }
+
+                    let principal = amount - downPayment;
+                    let emi = calculateemi(principal, interestRate, tenure);
+                    let totalamount = emi * tenure * 12;
+                    let totalInterest = totalamount - principal;
+
+                    // Update results
+                    monthlyEMIEl.innerHTML = `₹ ${emi.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+                    totalInterestEl.textContent = `₹ ${totalInterest.toFixed(2)}`;
+                    totalPaymentEl.textContent = `₹ ${totalamount.toFixed(2)}`;
+
+                    // Generate and display schedule
+                    let schedule = generateSchedule(principal, interestRate, tenure, emi, startDate);
+                    emiScheduleBody.innerHTML = '';
+                    schedule.forEach(row => {
+                        emiScheduleBody.innerHTML += `
+                        <tr>
+                            <td class="py-1 px-3 text-center">${row.month}</td>
+                            <td class="py-1 px-3 text-center">${row.date}</td>
+                            <td class="py-1 px-3 text-right">₹ ${row.emi.toFixed(2)}</td>
+                            <td class="py-1 px-3 text-right">₹ ${row.principalPaid.toFixed(2)}</td>
+                            <td class="py-1 px-3 text-right">₹ ${row.interestPaid.toFixed(2)}</td>
+                            <td class="py-1 px-3 text-right">₹ ${row.outstanding.toFixed(2)}</td>
+                        </tr>
+                    `;
+                    });
+
+                    errorMessageEl.classList.add('hidden');
+                    errorMessageEl.textContent = '';
+                    bufferingSpinner.classList.add('hidden');
+                }, 1200);
+            });
+        } else {
+            console.error('EMI form not found. Ensure the form ID is correct.');
+        }
+    </script>
+</body>
+
+</html>
