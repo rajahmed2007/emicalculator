@@ -1,4 +1,4 @@
-# EMI Calculator - Ultra Designed
+# EMI Calculator 
 
 A sleek, modern, and user-friendly Equated Monthly Installment (EMI) calculator built with **HTML**, **Tailwind CSS**, and **JavaScript**. This tool allows users to easily calculate their loan EMIs, understand the total interest payable, and view a detailed amortization schedule.
 
@@ -44,7 +44,7 @@ This project is a single HTML file and uses CDN links for Tailwind CSS, so there
 
 1.  **Clone the repository (optional):**
     ```bash
-    git clone [https://github.com/rajahmed2007/emicalculator.git](https://github.com/rajahmed2007/emicalculator)
+    git clone https://github.com/rajahmed2007/emicalculator
     cd emicalculator
     ```
     *OR*
